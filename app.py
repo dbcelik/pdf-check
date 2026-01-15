@@ -2,26 +2,27 @@ import streamlit as st
 from tools.pdf_compare import compare_pdfs
 
 # -------------------
-# LOGIN FUNCTION
+# LOGIN SETUP
 # -------------------
+if "logged_in" not in st.session_state:
+    st.session_state.logged_in = False
+
 def login():
     st.title("🔐 Login")
-
+    
     username = st.text_input("Username")
     password = st.text_input("Password", type="password")
 
     if st.button("Login"):
-        # Hardcoded credentials for now (can be moved to secrets for Streamlit Cloud)
         if username == "orsusfacades" and password == "123456":
-            st.session_state["logged_in"] = True
-            st.experimental_rerun()
+            st.session_state.logged_in = True
         else:
             st.error("Incorrect username or password")
 
 # -------------------
 # CHECK LOGIN
 # -------------------
-if "logged_in" not in st.session_state:
+if not st.session_state.logged_in:
     login()
     st.stop()  # Stop further execution until login is successful
 
